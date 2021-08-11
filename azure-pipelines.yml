@@ -54,7 +54,7 @@ stages:
           SqlUsername: 'javasql@javasql'
           SqlPassword: 'DXC@2020'
           TaskNameSelector: 'SqlTaskFile'
-          SqlFile: '$(System.DefaultWorkingDirectory)/_duynguyenanh2.JavaCICD/drop/CreateMYSQLDB.sql'
+          SqlFile: '$(Build.ArtifactStagingDirectory)/_duynguyenanh2.JavaCICD/drop/CreateMYSQLDB.sql'
           IpDetectionMethod: 'AutoDetect'
       - task: AzureRmWebAppDeployment@4
         inputs:
@@ -62,6 +62,6 @@ stages:
           azureSubscription: 'bruce-non-prd'
           appType: 'webApp'
           WebAppName: 'JavaDeloy'
-          packageForLinux: '$(System.DefaultWorkingDirectory)/_duynguyenanh2.JavaCICD/drop/target/myshuttledev.war'
+          packageForLinux: '$(Build.ArtifactStagingDirectory)/_duynguyenanh2.JavaCICD/drop/target/myshuttledev.war'
 
       
