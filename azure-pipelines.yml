@@ -39,29 +39,29 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-# - stage: Deloy
-#   displayName: Deloy App 
-#   jobs:  
-#   - job: Deloy
-#     displayName: Deloy
-#     pool:
-#       vmImage: ubuntu-latest
-#     steps:
-#       - task: AzureMysqlDeployment@1
-#         inputs:
-#           azureSubscription: 'bruce-non-prd'
-#           ServerName: 'javasql.mysql.database.azure.com'
-#           SqlUsername: 'javasql@javasql'
-#           SqlPassword: 'DXC@2020'
-#           TaskNameSelector: 'SqlTaskFile'
-#           SqlFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/drop/CreateMYSQLDB.sql'
-#           IpDetectionMethod: 'AutoDetect'
-#       - task: AzureRmWebAppDeployment@4
-#         inputs:
-#           ConnectionType: 'AzureRM'
-#           azureSubscription: 'bruce-non-prd'
-#           appType: 'webApp'
-#           WebAppName: 'JavaDeloy'
-#           packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/drop/target/myshuttledev.war'
+- stage: Deloy
+  displayName: Deloy App 
+  jobs:  
+  - job: Deloy
+    displayName: Deloy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: AzureMysqlDeployment@1
+        inputs:
+          azureSubscription: 'bruce-non-prd'
+          ServerName: 'javasql.mysql.database.azure.com'
+          SqlUsername: 'javasql@javasql'
+          SqlPassword: 'DXC@2020'
+          TaskNameSelector: 'SqlTaskFile'
+          SqlFile: '$(System.DefaultWorkingDirectory)/_duynguyenanh2.JavaCICD/drop/CreateMYSQLDB.sql'
+          IpDetectionMethod: 'AutoDetect'
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'bruce-non-prd'
+          appType: 'webApp'
+          WebAppName: 'JavaDeloy'
+          packageForLinux: '$(System.DefaultWorkingDirectory)/_duynguyenanh2.JavaCICD/drop/target/myshuttledev.war'
 
       
