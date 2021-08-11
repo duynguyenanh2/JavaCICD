@@ -30,7 +30,7 @@ stages:
       displayName: 'Publish Artifact'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
-stages:
+
 - stage: Deloy
   displayName: Deloy App 
   jobs:  
