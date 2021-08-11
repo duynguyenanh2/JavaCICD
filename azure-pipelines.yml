@@ -34,29 +34,5 @@ stages:
           *.sql
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- stage: Deloy
-  displayName: Deloy App 
-  jobs:  
-  - job: Deloy
-    displayName: Deloy
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-      - task: AzureMysqlDeployment@1
-        inputs:
-          azureSubscription: 'bruce-non-prd'
-          ServerName: 'javasql.mysql.database.azure.com'
-          SqlUsername: 'javasql@javasql'
-          SqlPassword: 'DXC@2020'
-          TaskNameSelector: 'SqlTaskFile'
-          SqlFile: '$(Build.SourcesDirectory)/CreateMYSQLDB.sql'
-          IpDetectionMethod: 'AutoDetect'
-      - task: AzureRmWebAppDeployment@4
-        inputs:
-          ConnectionType: 'AzureRM'
-          azureSubscription: 'bruce-non-prd'
-          appType: 'webApp'
-          WebAppName: 'JavaDeloy'
-          packageForLinux: '$(Build.SourcesDirectory)/target/myshuttledev.war'
 
       
