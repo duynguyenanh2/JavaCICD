@@ -57,6 +57,6 @@ stages:
           azureSubscription: 'bruce-non-prd'
           appType: 'webApp'
           WebAppName: 'JavaDeloy'
-          packageForLinux: '$(Build.SourcesDirectory)/myshuttledev.war'
+          packageForLinux: '$(Build.SourcesDirectory)/*.war'
 
       
