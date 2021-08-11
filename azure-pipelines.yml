@@ -33,10 +33,6 @@ stages:
           target/myshuttledev*.war
           *.sql
         TargetFolder: '$(build.artifactstagingdirectory)'
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
 
 - stage: Deloy
   displayName: Deloy App 
@@ -53,7 +49,7 @@ stages:
           SqlUsername: 'javasql@javasql'
           SqlPassword: 'DXC@2020'
           TaskNameSelector: 'SqlTaskFile'
-          SqlFile: '$(build.artifactstagingdirectory)/$(Build.BuildId)/drop/CreateMYSQLDB.sql'
+          SqlFile: '$(Build.SourcesDirectory)/CreateMYSQLDB.sql'
           IpDetectionMethod: 'AutoDetect'
       - task: AzureRmWebAppDeployment@4
         inputs:
@@ -61,5 +57,5 @@ stages:
           azureSubscription: 'bruce-non-prd'
           appType: 'webApp'
           WebAppName: 'JavaDeloy'
-          packageForLinux: '$(build.artifactstagingdirectory)/$(Build.BuildId)/drop/target/myshuttledev.war'
+          packageForLinux: '$(Build.SourcesDirectory)/target/myshuttledev.war'
       
