@@ -1,0 +1,61 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+stages:
+- stage: Build
+  displayName: Build and publish Java container
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Maven@3
+      displayName: 'Maven pom.xml'
+      inputs:
+        options: '-DskipITs --settings ./maven/settings.xml'
+    steps:   
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(build.sourcesdirectory)'
+        Contents: |
+          target/myshuttledev*.war
+          *.sql
+        TargetFolder: '$(build.artifactstagingdirectory)'
+    steps:
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+stages:
+- stage: Deloy
+  displayName: Deloy App 
+  jobs:  
+  - job: Deloy
+    displayName: Deloy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: AzureMysqlDeployment@1
+        inputs:
+          azureSubscription: 'bruce-non-prd'
+          ServerName: 'javasql.mysql.database.azure.com'
+          SqlUsername: 'javasql@javasql'
+          SqlPassword: 'DXC@2020'
+          TaskNameSelector: 'SqlTaskFile'
+          SqlFile: '$(System.DefaultWorkingDirectory)/MyShuttle Build/drop/CreateMYSQLDB.sql'
+          IpDetectionMethod: 'AutoDetect'
+    steps:
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'bruce-non-prd'
+          appType: 'webApp'
+          WebAppName: 'JavaDeloy'
+          packageForLinux: '$(System.DefaultWorkingDirectory)/MyShuttle Build/drop/target/myshuttledev.war'
+      
