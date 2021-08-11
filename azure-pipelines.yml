@@ -18,8 +18,7 @@ stages:
     - task: Maven@3
       displayName: 'Maven pom.xml'
       inputs:
-        options: '-DskipITs --settings ./maven/settings.xml'
-    steps:   
+        options: '-DskipITs --settings ./maven/settings.xml'  
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(build.sourcesdirectory)'
@@ -27,7 +26,6 @@ stages:
           target/myshuttledev*.war
           *.sql
         TargetFolder: '$(build.artifactstagingdirectory)'
-    steps:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
@@ -50,7 +48,6 @@ stages:
           TaskNameSelector: 'SqlTaskFile'
           SqlFile: '$(System.DefaultWorkingDirectory)/MyShuttle Build/drop/CreateMYSQLDB.sql'
           IpDetectionMethod: 'AutoDetect'
-    steps:
       - task: AzureRmWebAppDeployment@4
         inputs:
           ConnectionType: 'AzureRM'
